@@ -15,14 +15,14 @@ from pyspark.sql.types import StructType, StructField, IntegerType, StringType, 
 circuits_schema = StructType(
     fields=[
         StructField('circuitId', IntegerType(), False),
-        StructField('circuitRef', StringType(), True),
-        StructField('name', StringType(), True),
+        StructField('circuitRef', StringType(), False),
+        StructField('name', StringType(), False),
         StructField('location', StringType(), True),
         StructField('country', StringType(), True),
         StructField('lat', DoubleType(), True),
         StructField('lng', DoubleType(), True),
         StructField('alt', IntegerType(), True),
-        StructField('url', StringType(), True)
+        StructField('url', StringType(), False)
     ]
 )
 
