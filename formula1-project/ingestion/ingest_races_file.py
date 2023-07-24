@@ -15,11 +15,11 @@ from pyspark.sql.types import StructType, StructField, IntegerType, StringType, 
 races_schema = StructType(
     fields=[
         StructField('raceId', IntegerType(), False),
-        StructField('year', IntegerType(), True),
-        StructField('round', IntegerType(), True),
-        StructField('circuitId', IntegerType(), True),
-        StructField('name', StringType(), True),
-        StructField('date', DateType(), True),
+        StructField('year', IntegerType(), False),
+        StructField('round', IntegerType(), False),
+        StructField('circuitId', IntegerType(), False),
+        StructField('name', StringType(), False),
+        StructField('date', DateType(), False),
         StructField('time', StringType(), True),
         StructField('url', StringType(), True)
     ]
