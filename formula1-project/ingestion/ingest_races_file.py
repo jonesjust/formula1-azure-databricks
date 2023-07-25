@@ -1,4 +1,9 @@
 # Databricks notebook source
+dbutils.widgets.text('p_data_source', '')
+v_data_source = dbutils.widgets.get('p_data_source')
+
+# COMMAND ----------
+
 # MAGIC %run ../includes/configuration
 
 # COMMAND ----------
@@ -58,12 +63,16 @@ races_with_timestamp_df = races_renamed_df.withColumn('race_timestamp', to_times
 
 # COMMAND ----------
 
-races_with_ingestion_date_df = add_ingestion_date(races_with_timestamp_df)
+races_with_data_source_df = races_with_timestamp_df.withColumn('data_source', lit(v_data_source))
+
+# COMMAND ----------
+
+races_with_ingestion_date_df = add_ingestion_date(races_with_data_source_df)
 
 # COMMAND ----------
 
 races_final_df = races_with_ingestion_date_df.select(
-    col('race_id'), col('race_year'), col('round'), col('circuit_id'), col('name'), col('race_timestamp'), col('ingestion_date')
+    col('race_id'), col('race_year'), col('round'), col('circuit_id'), col('name'), col('race_timestamp'), col('data_source'), col('ingestion_date')
 )
 
 # COMMAND ----------

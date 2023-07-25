@@ -1,4 +1,9 @@
 # Databricks notebook source
+dbutils.widgets.text('p_data_source', '')
+v_data_source = dbutils.widgets.get('p_data_source')
+
+# COMMAND ----------
+
 # MAGIC %run ../includes/configuration
 
 # COMMAND ----------
@@ -42,7 +47,15 @@ qualifying_renamed_df = qualifying_df \
 
 # COMMAND ----------
 
-qualifying_final_df = add_ingestion_date(qualifying_renamed_df)
+from pyspark.sql.functions import lit
+
+# COMMAND ----------
+
+qualifying_with_data_source_df = qualifying_renamed_df.withColumn('data_source', lit(v_data_source))
+
+# COMMAND ----------
+
+qualifying_final_df = add_ingestion_date(qualifying_with_data_source_df)
 
 # COMMAND ----------
 

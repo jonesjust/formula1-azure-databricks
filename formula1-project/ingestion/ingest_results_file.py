@@ -1,4 +1,9 @@
 # Databricks notebook source
+dbutils.widgets.text('p_data_source', '')
+v_data_source = dbutils.widgets.get('p_data_source')
+
+# COMMAND ----------
+
 # MAGIC %run ../includes/configuration
 
 # COMMAND ----------
@@ -59,7 +64,15 @@ results_drop_statusid_df = results_renamed_df.drop('statusId')
 
 # COMMAND ----------
 
-results_final_df = add_ingestion_date(results_drop_statusid_df)
+from pyspark.sql.functions import lit
+
+# COMMAND ----------
+
+results_with_data_source_df = results_drop_statusid_df.withColumn('data_source', lit(v_data_source))
+
+# COMMAND ----------
+
+results_final_df = add_ingestion_date(results_with_data_source_df)
 
 # COMMAND ----------
 

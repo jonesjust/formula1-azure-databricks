@@ -1,4 +1,9 @@
 # Databricks notebook source
+dbutils.widgets.text('p_data_source', '')
+v_data_source = dbutils.widgets.get('p_data_source')
+
+# COMMAND ----------
+
 # MAGIC %run ../includes/configuration
 
 # COMMAND ----------
@@ -39,7 +44,15 @@ constructors_renamed_df = constructors_dropped_df \
 
 # COMMAND ----------
 
-constructors_final_df = add_ingestion_date(constructors_renamed_df)
+from pyspark.sql.functions import lit
+
+# COMMAND ----------
+
+constructors_with_data_source_df = constructors_renamed_df.withColumn('data_source', lit(v_data_source))
+
+# COMMAND ----------
+
+constructors_final_df = add_ingestion_date(constructors_with_data_source_df)
 
 # COMMAND ----------
 

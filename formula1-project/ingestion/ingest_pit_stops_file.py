@@ -1,4 +1,9 @@
 # Databricks notebook source
+dbutils.widgets.text('p_data_source', '')
+v_data_source = dbutils.widgets.get('p_data_source')
+
+# COMMAND ----------
+
 # MAGIC %run ../includes/configuration
 
 # COMMAND ----------
@@ -38,7 +43,15 @@ pit_stops_renamed_df = pit_stops_df \
 
 # COMMAND ----------
 
-pit_stops_final_df = add_ingestion_date(pit_stops_renamed_df)
+from pyspark.sql.functions import lit
+
+# COMMAND ----------
+
+pit_stops_with_data_source_df = pit_stops_renamed_df.withColumn('data_source', lit(v_data_source))
+
+# COMMAND ----------
+
+pit_stops_final_df = add_ingestion_date(pit_stops_with_data_source_df)
 
 # COMMAND ----------
 
