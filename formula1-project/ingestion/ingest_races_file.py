@@ -3,6 +3,10 @@
 
 # COMMAND ----------
 
+# MAGIC %run ../includes/common_functions
+
+# COMMAND ----------
+
 display(dbutils.fs.mounts())
 
 # COMMAND ----------
@@ -83,7 +87,7 @@ from pyspark.sql.functions import current_timestamp
 
 # COMMAND ----------
 
-races_with_ingestion_date_df = races_with_timestamp_df.withColumn('ingestion_date', current_timestamp())
+races_with_ingestion_date_df = add_ingestion_date(races_with_timestamp_df)
 
 # COMMAND ----------
 
