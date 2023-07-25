@@ -56,3 +56,11 @@ pit_stops_final_df = add_ingestion_date(pit_stops_with_data_source_df)
 # COMMAND ----------
 
 pit_stops_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/pit_stops')
+
+# COMMAND ----------
+
+display(spark.read.parquet(f'{processed_container_path}/pit_stops'))
+
+# COMMAND ----------
+
+dbutils.notebook.exit('Success')

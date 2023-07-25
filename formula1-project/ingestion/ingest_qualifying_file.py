@@ -60,3 +60,11 @@ qualifying_final_df = add_ingestion_date(qualifying_with_data_source_df)
 # COMMAND ----------
 
 qualifying_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/qualifying')
+
+# COMMAND ----------
+
+display(spark.read.parquet(f'{processed_container_path}/qualifying'))
+
+# COMMAND ----------
+
+dbutils.notebook.exit('Success')

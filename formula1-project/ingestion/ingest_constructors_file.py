@@ -57,3 +57,11 @@ constructors_final_df = add_ingestion_date(constructors_with_data_source_df)
 # COMMAND ----------
 
 constructors_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/constructors')
+
+# COMMAND ----------
+
+display(spark.read.parquet(f'{processed_container_path}/constructors'))
+
+# COMMAND ----------
+
+dbutils.notebook.exit('Success')

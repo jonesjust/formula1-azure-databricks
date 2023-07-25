@@ -57,4 +57,8 @@ lap_times_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/
 
 # COMMAND ----------
 
-display(lap_times_final_df)
+display(spark.read.parquet(f'{processed_container_path}/lap_times'))
+
+# COMMAND ----------
+
+dbutils.notebook.exit('Success')
