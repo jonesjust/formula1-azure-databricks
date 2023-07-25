@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %run ../includes/configuration
+
+# COMMAND ----------
+
 display(dbutils.fs.mounts())
 
 # COMMAND ----------
@@ -31,7 +35,7 @@ circuits_schema = StructType(
 circuits_df = spark.read \
     .option('header', True) \
     .schema(circuits_schema) \
-    .csv('/mnt/formula1adls22/raw/circuits.csv')
+    .csv(f'{raw_container_path}/circuits.csv')
 
 # COMMAND ----------
 
@@ -78,7 +82,7 @@ display(circuits_final_df)
 
 # COMMAND ----------
 
-circuits_final_df.write.mode('overwrite').parquet('/mnt/formula1adls22/processed/circuits')
+circuits_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/circuits')
 
 # COMMAND ----------
 

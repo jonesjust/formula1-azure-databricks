@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %run ../includes/configuration
+
+# COMMAND ----------
+
 display(dbutils.fs.mounts())
 
 # COMMAND ----------
@@ -30,7 +34,7 @@ races_schema = StructType(
 races_df = spark.read \
     .option('header', True) \
     .schema(races_schema) \
-    .csv('/mnt/formula1adls22/raw/races.csv')
+    .csv(f'{raw_container_path}/races.csv')
 
 # COMMAND ----------
 
@@ -93,7 +97,7 @@ display(races_final_df)
 
 # COMMAND ----------
 
-races_final_df.write.mode('overwrite').partitionBy('race_year').parquet('/mnt/formula1adls22/processed/races')
+races_final_df.write.mode('overwrite').partitionBy('race_year').parquet(f'{processed_container_path}/races')
 
 # COMMAND ----------
 

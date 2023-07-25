@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %run ../includes/configuration
+
+# COMMAND ----------
+
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DateType
 
 # COMMAND ----------
@@ -29,7 +33,7 @@ drivers_schema = StructType(
 
 drivers_df = spark.read \
     .schema(drivers_schema) \
-    .json('/mnt/formula1adls22/raw/drivers.json')
+    .json(f'{raw_container_path}/drivers.json')
 
 # COMMAND ----------
 
@@ -61,7 +65,7 @@ display(drivers_final_df)
 
 # COMMAND ----------
 
-drivers_final_df.write.mode('overwrite').parquet('/mnt/formula1adls22/processed/drivers')
+drivers_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/drivers')
 
 # COMMAND ----------
 

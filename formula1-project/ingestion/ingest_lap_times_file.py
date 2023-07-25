@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %run ../includes/configuration
+
+# COMMAND ----------
+
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType
 
 # COMMAND ----------
@@ -18,7 +22,7 @@ lap_times_schema = StructType(
 
 lap_times_df = spark.read \
     .schema(lap_times_schema) \
-    .csv('/mnt/formula1adls22/raw/lap_times')
+    .csv(f'{raw_container_path}/lap_times')
 
 # COMMAND ----------
 
@@ -37,7 +41,7 @@ display(lap_times_final_df)
 
 # COMMAND ----------
 
-lap_times_final_df.write.mode('overwrite').parquet('/mnt/formula1adls22/processed/lap_times')
+lap_times_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/lap_times')
 
 # COMMAND ----------
 
