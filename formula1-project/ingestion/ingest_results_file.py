@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %run ../includes/configuration
+
+# COMMAND ----------
+
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, FloatType
 
 # COMMAND ----------
@@ -30,7 +34,7 @@ results_schema = StructType(
 
 results_df = spark.read \
     .schema(results_schema) \
-    .json('/mnt/formula1adls22/raw/results.json')
+    .json(f'{raw_container_path}/results.json')
 
 # COMMAND ----------
 
@@ -67,7 +71,7 @@ display(results_final_df)
 
 # COMMAND ----------
 
-results_final_df.write.mode('overwrite').partitionBy('race_id').parquet('/mnt/formula1adls22/processed/results')
+results_final_df.write.mode('overwrite').partitionBy('race_id').parquet(f'{processed_container_path}/results')
 
 # COMMAND ----------
 

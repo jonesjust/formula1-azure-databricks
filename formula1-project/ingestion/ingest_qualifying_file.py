@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %run ../includes/configuration
+
+# COMMAND ----------
+
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType
 
 # COMMAND ----------
@@ -22,7 +26,7 @@ qualifying_schema = StructType(
 qualifying_df = spark.read \
     .schema(qualifying_schema) \
     .option('multiline', True) \
-    .json('/mnt/formula1adls22/raw/qualifying')
+    .json(f'{raw_container_path}/qualifying')
 
 # COMMAND ----------
 
@@ -47,7 +51,7 @@ display(qualifying_final_df)
 
 # COMMAND ----------
 
-qualifying_final_df.write.mode('overwrite').parquet('/mnt/formula1adls22/processed/qualifying')
+qualifying_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/qualifying')
 
 # COMMAND ----------
 

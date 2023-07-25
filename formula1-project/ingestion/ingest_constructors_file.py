@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %run ../includes/configuration
+
+# COMMAND ----------
+
 from pyspark.sql.types import StructType, StructField, LongType, IntegerType, StringType
 
 # COMMAND ----------
@@ -17,7 +21,7 @@ constructors_schema = StructType(
 
 constructors_df = spark.read \
     .schema(constructors_schema) \
-    .json('/mnt/formula1adls22/raw/constructors.json')
+    .json(f'{raw_container_path}/constructors.json')
 
 # COMMAND ----------
 
@@ -44,7 +48,7 @@ display(constructors_final_df)
 
 # COMMAND ----------
 
-constructors_final_df.write.mode('overwrite').parquet('/mnt/formula1adls22/processed/constructors')
+constructors_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/constructors')
 
 # COMMAND ----------
 
