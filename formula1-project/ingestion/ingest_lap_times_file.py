@@ -30,10 +30,6 @@ lap_times_df = spark.read \
 
 # COMMAND ----------
 
-from pyspark.sql.functions import current_timestamp
-
-# COMMAND ----------
-
 lap_times_renamed_df = lap_times_df \
     .withColumnRenamed('raceId', 'race_id') \
     .withColumnRenamed('driverId', 'driver_id')
@@ -44,12 +40,4 @@ lap_times_final_df = add_ingestion_date(lap_times_renamed_df)
 
 # COMMAND ----------
 
-display(lap_times_final_df)
-
-# COMMAND ----------
-
 lap_times_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/lap_times')
-
-# COMMAND ----------
-
-display(spark.read.parquet('/mnt/formula1adls22/processed/lap_times'))
