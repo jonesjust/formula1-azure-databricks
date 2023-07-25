@@ -67,3 +67,11 @@ drivers_final_df = add_ingestion_date(drivers_drop_url_df)
 # COMMAND ----------
 
 drivers_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/drivers')
+
+# COMMAND ----------
+
+display(spark.read.parquet(f'{processed_container_path}/drivers'))
+
+# COMMAND ----------
+
+dbutils.notebook.exit('Success')

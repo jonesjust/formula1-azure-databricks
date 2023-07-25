@@ -67,3 +67,11 @@ circuits_final_df = add_ingestion_date(circuits_with_data_source_df)
 # COMMAND ----------
 
 circuits_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/circuits')
+
+# COMMAND ----------
+
+display(spark.read.parquet(f'{processed_container_path}/circuits'))
+
+# COMMAND ----------
+
+dbutils.notebook.exit('Success')

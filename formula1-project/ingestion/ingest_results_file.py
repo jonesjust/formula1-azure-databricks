@@ -77,3 +77,11 @@ results_final_df = add_ingestion_date(results_with_data_source_df)
 # COMMAND ----------
 
 results_final_df.write.mode('overwrite').partitionBy('race_id').parquet(f'{processed_container_path}/results')
+
+# COMMAND ----------
+
+display(spark.read.parquet(f'{processed_container_path}/results'))
+
+# COMMAND ----------
+
+dbutils.notebook.exit('Success')
