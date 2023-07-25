@@ -7,15 +7,6 @@
 
 # COMMAND ----------
 
-display(dbutils.fs.mounts())
-
-# COMMAND ----------
-
-# MAGIC %fs
-# MAGIC ls /mnt/formula1adls22/raw
-
-# COMMAND ----------
-
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DoubleType
 
 # COMMAND ----------
@@ -43,10 +34,6 @@ circuits_df = spark.read \
 
 # COMMAND ----------
 
-display(circuits_df)
-
-# COMMAND ----------
-
 from pyspark.sql.functions import col
 
 # COMMAND ----------
@@ -54,10 +41,6 @@ from pyspark.sql.functions import col
 circuits_selected_df = circuits_df.select(
     col('circuitId'), col('circuitRef'), col('name'), col('location'), col('country'), col('lat'), col('lng'), col('alt')
 )
-
-# COMMAND ----------
-
-display(circuits_selected_df)
 
 # COMMAND ----------
 
@@ -70,24 +53,8 @@ circuits_renamed_df = circuits_selected_df \
 
 # COMMAND ----------
 
-display(circuits_renamed_df)
-
-# COMMAND ----------
-
-from pyspark.sql.functions import current_timestamp
-
-# COMMAND ----------
-
 circuits_final_df = add_ingestion_date(circuits_renamed_df)
 
 # COMMAND ----------
 
-display(circuits_final_df)
-
-# COMMAND ----------
-
 circuits_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/circuits')
-
-# COMMAND ----------
-
-display(spark.read.parquet('/mnt/formula1adls22/processed/circuits'))

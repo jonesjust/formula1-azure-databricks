@@ -42,10 +42,6 @@ results_df = spark.read \
 
 # COMMAND ----------
 
-display(results_df)
-
-# COMMAND ----------
-
 results_renamed_df = results_df \
     .withColumnRenamed('resultId', 'result_id') \
     .withColumnRenamed('raceId', 'race_id') \
@@ -63,20 +59,8 @@ results_drop_statusid_df = results_renamed_df.drop('statusId')
 
 # COMMAND ----------
 
-from pyspark.sql.functions import current_timestamp
-
-# COMMAND ----------
-
 results_final_df = add_ingestion_date(results_drop_statusid_df)
 
 # COMMAND ----------
 
-display(results_final_df)
-
-# COMMAND ----------
-
 results_final_df.write.mode('overwrite').partitionBy('race_id').parquet(f'{processed_container_path}/results')
-
-# COMMAND ----------
-
-display(spark.read.parquet('/mnt/formula1adls22/processed/results'))

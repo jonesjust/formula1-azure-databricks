@@ -41,11 +41,7 @@ drivers_df = spark.read \
 
 # COMMAND ----------
 
-display(drivers_df)
-
-# COMMAND ----------
-
-from pyspark.sql.functions import col, concat, lit, current_timestamp
+from pyspark.sql.functions import col, concat, lit
 
 # COMMAND ----------
 
@@ -57,10 +53,6 @@ drivers_with_columns_df = drivers_df \
 
 # COMMAND ----------
 
-display(drivers_with_columns_df)
-
-# COMMAND ----------
-
 drivers_drop_url_df = drivers_with_columns_df.drop('url')
 
 # COMMAND ----------
@@ -69,12 +61,4 @@ drivers_final_df = add_ingestion_date(drivers_drop_url_df)
 
 # COMMAND ----------
 
-display(drivers_final_df)
-
-# COMMAND ----------
-
 drivers_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/drivers')
-
-# COMMAND ----------
-
-display(spark.read.parquet('/mnt/formula1adls22/processed/drivers'))
