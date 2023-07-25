@@ -34,14 +34,6 @@ qualifying_df = spark.read \
 
 # COMMAND ----------
 
-display(qualifying_df)
-
-# COMMAND ----------
-
-from pyspark.sql.functions import current_timestamp
-
-# COMMAND ----------
-
 qualifying_renamed_df = qualifying_df \
     .withColumnRenamed('qualifyId', 'qualify_id') \
     .withColumnRenamed('raceId', 'race_id') \
@@ -54,12 +46,4 @@ qualifying_final_df = add_ingestion_date(qualifying_renamed_df)
 
 # COMMAND ----------
 
-display(qualifying_final_df)
-
-# COMMAND ----------
-
 qualifying_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/qualifying')
-
-# COMMAND ----------
-
-display(spark.read.parquet('/mnt/formula1adls22/processed/qualifying'))

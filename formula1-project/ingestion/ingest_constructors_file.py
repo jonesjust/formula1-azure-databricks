@@ -29,15 +29,7 @@ constructors_df = spark.read \
 
 # COMMAND ----------
 
-display(constructors_df)
-
-# COMMAND ----------
-
 constructors_dropped_df = constructors_df.drop('url')
-
-# COMMAND ----------
-
-from pyspark.sql.functions import current_timestamp
 
 # COMMAND ----------
 
@@ -51,12 +43,4 @@ constructors_final_df = add_ingestion_date(constructors_renamed_df)
 
 # COMMAND ----------
 
-display(constructors_final_df)
-
-# COMMAND ----------
-
 constructors_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/constructors')
-
-# COMMAND ----------
-
-display(spark.read.parquet('/mnt/formula1adls22/processed/constructors'))
