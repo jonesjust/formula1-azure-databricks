@@ -1,4 +1,9 @@
 # Databricks notebook source
+dbutils.widgets.text('p_data_source', '')
+v_data_source = dbutils.widgets.get('p_data_source')
+
+# COMMAND ----------
+
 # MAGIC %run ../includes/configuration
 
 # COMMAND ----------
@@ -34,7 +39,7 @@ circuits_df = spark.read \
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col
+from pyspark.sql.functions import col, lit
 
 # COMMAND ----------
 
@@ -53,7 +58,11 @@ circuits_renamed_df = circuits_selected_df \
 
 # COMMAND ----------
 
-circuits_final_df = add_ingestion_date(circuits_renamed_df)
+circuits_with_data_source_df = circuits_renamed_df.withColumn('data_source', lit(v_data_source))
+
+# COMMAND ----------
+
+circuits_final_df = add_ingestion_date(circuits_with_data_source_df)
 
 # COMMAND ----------
 

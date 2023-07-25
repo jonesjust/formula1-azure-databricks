@@ -1,4 +1,9 @@
 # Databricks notebook source
+dbutils.widgets.text('p_data_source', '')
+v_data_source = dbutils.widgets.get('p_data_source')
+
+# COMMAND ----------
+
 # MAGIC %run ../includes/configuration
 
 # COMMAND ----------
@@ -36,8 +41,20 @@ lap_times_renamed_df = lap_times_df \
 
 # COMMAND ----------
 
-lap_times_final_df = add_ingestion_date(lap_times_renamed_df)
+from pyspark.sql.functions import lit
+
+# COMMAND ----------
+
+lap_times_with_data_source_df = lap_times_renamed_df.withColumn('data_source', lit(v_data_source))
+
+# COMMAND ----------
+
+lap_times_final_df = add_ingestion_date(lap_times_with_data_source_df)
 
 # COMMAND ----------
 
 lap_times_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/lap_times')
+
+# COMMAND ----------
+
+display(lap_times_final_df)
