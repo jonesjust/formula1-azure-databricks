@@ -3,6 +3,10 @@
 
 # COMMAND ----------
 
+# MAGIC %run ../includes/common_functions
+
+# COMMAND ----------
+
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType
 
 # COMMAND ----------
@@ -38,12 +42,15 @@ from pyspark.sql.functions import current_timestamp
 
 # COMMAND ----------
 
-qualifying_final_df = qualifying_df \
+qualifying_renamed_df = qualifying_df \
     .withColumnRenamed('qualifyId', 'qualify_id') \
     .withColumnRenamed('raceId', 'race_id') \
     .withColumnRenamed('driverId', 'driver_id') \
-    .withColumnRenamed('constructorId', 'constructor_id') \
-    .withColumn('ingestion_date', current_timestamp())
+    .withColumnRenamed('constructorId', 'constructor_id')
+
+# COMMAND ----------
+
+qualifying_final_df = add_ingestion_date(qualifying_renamed_df)
 
 # COMMAND ----------
 

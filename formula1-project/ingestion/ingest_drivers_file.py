@@ -3,6 +3,10 @@
 
 # COMMAND ----------
 
+# MAGIC %run ../includes/common_functions
+
+# COMMAND ----------
+
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DateType
 
 # COMMAND ----------
@@ -57,7 +61,11 @@ display(drivers_with_columns_df)
 
 # COMMAND ----------
 
-drivers_final_df = drivers_with_columns_df.drop('url')
+drivers_drop_url_df = drivers_with_columns_df.drop('url')
+
+# COMMAND ----------
+
+drivers_final_df = add_ingestion_date(drivers_drop_url_df)
 
 # COMMAND ----------
 

@@ -3,6 +3,10 @@
 
 # COMMAND ----------
 
+# MAGIC %run ../includes/common_functions
+
+# COMMAND ----------
+
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, FloatType
 
 # COMMAND ----------
@@ -63,7 +67,7 @@ from pyspark.sql.functions import current_timestamp
 
 # COMMAND ----------
 
-results_final_df = results_drop_statusid_df.withColumn('ingestion_date', current_timestamp())
+results_final_df = add_ingestion_date(results_drop_statusid_df)
 
 # COMMAND ----------
 

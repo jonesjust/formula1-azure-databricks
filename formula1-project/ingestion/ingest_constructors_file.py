@@ -3,6 +3,10 @@
 
 # COMMAND ----------
 
+# MAGIC %run ../includes/common_functions
+
+# COMMAND ----------
+
 from pyspark.sql.types import StructType, StructField, LongType, IntegerType, StringType
 
 # COMMAND ----------
@@ -37,10 +41,13 @@ from pyspark.sql.functions import current_timestamp
 
 # COMMAND ----------
 
-constructors_final_df = constructors_dropped_df \
+constructors_renamed_df = constructors_dropped_df \
     .withColumnRenamed('constructorId', 'constructor_id') \
-    .withColumnRenamed('constructorRef', 'constructor_ref') \
-    .withColumn('ingestion_date', current_timestamp())    
+    .withColumnRenamed('constructorRef', 'constructor_ref')   
+
+# COMMAND ----------
+
+constructors_final_df = add_ingestion_date(constructors_renamed_df)
 
 # COMMAND ----------
 

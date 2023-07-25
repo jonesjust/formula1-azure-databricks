@@ -3,6 +3,10 @@
 
 # COMMAND ----------
 
+# MAGIC %run ../includes/common_functions
+
+# COMMAND ----------
+
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType
 
 # COMMAND ----------
@@ -30,10 +34,13 @@ from pyspark.sql.functions import current_timestamp
 
 # COMMAND ----------
 
-lap_times_final_df = lap_times_df \
+lap_times_renamed_df = lap_times_df \
     .withColumnRenamed('raceId', 'race_id') \
-    .withColumnRenamed('driverId', 'driver_id') \
-    .withColumn('ingestion_date', current_timestamp())
+    .withColumnRenamed('driverId', 'driver_id')
+
+# COMMAND ----------
+
+lap_times_final_df = add_ingestion_date(lap_times_renamed_df)
 
 # COMMAND ----------
 
