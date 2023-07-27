@@ -55,7 +55,7 @@ pit_stops_final_df = add_ingestion_date(pit_stops_with_data_source_df)
 
 # COMMAND ----------
 
-pit_stops_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/pit_stops')
+pit_stops_final_df.write.mode('overwrite').format('parquet').saveAsTable('f1_processed.pit_stops')
 
 # COMMAND ----------
 

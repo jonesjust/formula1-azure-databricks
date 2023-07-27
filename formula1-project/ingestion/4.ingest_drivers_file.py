@@ -66,7 +66,7 @@ drivers_final_df = add_ingestion_date(drivers_drop_url_df)
 
 # COMMAND ----------
 
-drivers_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/drivers')
+drivers_final_df.write.mode('overwrite').format('parquet').saveAsTable('f1_processed.drivers')
 
 # COMMAND ----------
 
