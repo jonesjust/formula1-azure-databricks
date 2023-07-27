@@ -53,4 +53,4 @@ final_df = race_results_df \
 
 # COMMAND ----------
 
-final_df.write.mode('overwrite').parquet(f'{presentation_container_path}/race_results')
+final_df.write.mode('overwrite').format('parquet').saveAsTable('f1_presentation.race_results')

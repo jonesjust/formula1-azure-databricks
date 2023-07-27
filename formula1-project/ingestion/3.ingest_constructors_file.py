@@ -56,7 +56,7 @@ constructors_final_df = add_ingestion_date(constructors_with_data_source_df)
 
 # COMMAND ----------
 
-constructors_final_df.write.mode('overwrite').parquet(f'{processed_container_path}/constructors')
+constructors_final_df.write.mode('overwrite').format('parquet').saveAsTable('f1_processed.constructors')
 
 # COMMAND ----------
 
