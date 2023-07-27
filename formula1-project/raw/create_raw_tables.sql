@@ -170,7 +170,3 @@ DESC EXTENDED f1_raw.qualifying
 -- COMMAND ----------
 
 DESC DATABASE f1_raw
-
--- COMMAND ----------
-
-
