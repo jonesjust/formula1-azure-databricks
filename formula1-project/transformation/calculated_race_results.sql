@@ -22,7 +22,3 @@ WHERE results.position <= 10
 -- COMMAND ----------
 
 SELECT * FROM f1_presentation.calculated_race_results
-
--- COMMAND ----------
-
-
