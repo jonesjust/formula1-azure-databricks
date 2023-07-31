@@ -4,6 +4,11 @@ v_data_source = dbutils.widgets.get('p_data_source')
 
 # COMMAND ----------
 
+dbutils.widgets.text('p_file_date', '2021-03-28')
+v_file_date = dbutils.widgets.get('p_file_date')
+
+# COMMAND ----------
+
 # MAGIC %run ../includes/configuration
 
 # COMMAND ----------
@@ -35,7 +40,7 @@ qualifying_schema = StructType(
 qualifying_df = spark.read \
     .schema(qualifying_schema) \
     .option('multiline', True) \
-    .json(f'{raw_container_path}/qualifying')
+    .json(f'{raw_container_path}/{v_file_date}/qualifying')
 
 # COMMAND ----------
 
@@ -55,11 +60,15 @@ qualifying_with_data_source_df = qualifying_renamed_df.withColumn('data_source',
 
 # COMMAND ----------
 
-qualifying_final_df = add_ingestion_date(qualifying_with_data_source_df)
+qualifying_with_file_date_df = qualifying_with_data_source_df.withColumn('file_date', lit(v_file_date))
 
 # COMMAND ----------
 
-qualifying_final_df.write.mode('overwrite').format('parquet').saveAsTable('f1_processed.qualifying')
+qualifying_final_df = add_ingestion_date(qualifying_with_file_date_df)
+
+# COMMAND ----------
+
+overwrite_partition(qualifying_final_df, 'f1_processed', 'qualifying', 'race_id')
 
 # COMMAND ----------
 

@@ -4,6 +4,11 @@ v_data_source = dbutils.widgets.get('p_data_source')
 
 # COMMAND ----------
 
+dbutils.widgets.text('p_file_date', '2021-03-21')
+v_file_date = dbutils.widgets.get('p_file_date')
+
+# COMMAND ----------
+
 # MAGIC %run ../includes/configuration
 
 # COMMAND ----------
@@ -34,7 +39,7 @@ races_schema = StructType(
 races_df = spark.read \
     .option('header', True) \
     .schema(races_schema) \
-    .csv(f'{raw_container_path}/races.csv')
+    .csv(f'{raw_container_path}/{v_file_date}/races.csv')
 
 # COMMAND ----------
 
@@ -67,12 +72,16 @@ races_with_data_source_df = races_with_timestamp_df.withColumn('data_source', li
 
 # COMMAND ----------
 
-races_with_ingestion_date_df = add_ingestion_date(races_with_data_source_df)
+races_with_file_date_df = races_with_data_source_df.withColumn('file_date', lit(v_file_date))
+
+# COMMAND ----------
+
+races_with_ingestion_date_df = add_ingestion_date(races_with_file_date_df)
 
 # COMMAND ----------
 
 races_final_df = races_with_ingestion_date_df.select(
-    col('race_id'), col('race_year'), col('round'), col('circuit_id'), col('name'), col('race_timestamp'), col('data_source'), col('ingestion_date')
+    col('race_id'), col('race_year'), col('round'), col('circuit_id'), col('name'), col('race_timestamp'), col('data_source'), col('file_date'), col('ingestion_date')
 )
 
 # COMMAND ----------
