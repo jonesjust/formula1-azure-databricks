@@ -4,6 +4,11 @@ v_data_source = dbutils.widgets.get('p_data_source')
 
 # COMMAND ----------
 
+dbutils.widgets.text('p_file_date', '2021-03-28')
+v_file_date = dbutils.widgets.get('p_file_date')
+
+# COMMAND ----------
+
 # MAGIC %run ../includes/configuration
 
 # COMMAND ----------
@@ -31,7 +36,7 @@ lap_times_schema = StructType(
 
 lap_times_df = spark.read \
     .schema(lap_times_schema) \
-    .csv(f'{raw_container_path}/lap_times')
+    .csv(f'{raw_container_path}/{v_file_date}/lap_times')
 
 # COMMAND ----------
 
@@ -49,15 +54,15 @@ lap_times_with_data_source_df = lap_times_renamed_df.withColumn('data_source', l
 
 # COMMAND ----------
 
-lap_times_final_df = add_ingestion_date(lap_times_with_data_source_df)
+lap_times_with_file_date_df = lap_times_with_data_source_df.withColumn('file_date', lit(v_file_date))
 
 # COMMAND ----------
 
-lap_times_final_df.write.mode('overwrite').format('parquet').saveAsTable('f1_processed.lap_times')
+lap_times_final_df = add_ingestion_date(lap_times_with_file_date_df)
 
 # COMMAND ----------
 
-display(spark.read.parquet(f'{processed_container_path}/lap_times'))
+overwrite_partition(lap_times_final_df, 'f1_processed', 'lap_times', 'race_id')
 
 # COMMAND ----------
 

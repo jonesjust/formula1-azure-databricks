@@ -4,6 +4,11 @@ v_data_source = dbutils.widgets.get('p_data_source')
 
 # COMMAND ----------
 
+dbutils.widgets.text('p_file_date', '2021-03-28')
+v_file_date = dbutils.widgets.get('p_file_date')
+
+# COMMAND ----------
+
 # MAGIC %run ../includes/configuration
 
 # COMMAND ----------
@@ -33,7 +38,7 @@ pit_stops_schema = StructType(
 pit_stops_df = spark.read \
     .schema(pit_stops_schema) \
     .option('multiline', True) \
-    .json(f'{raw_container_path}/pit_stops.json')
+    .json(f'{raw_container_path}/{v_file_date}/pit_stops.json')
 
 # COMMAND ----------
 
@@ -51,15 +56,15 @@ pit_stops_with_data_source_df = pit_stops_renamed_df.withColumn('data_source', l
 
 # COMMAND ----------
 
-pit_stops_final_df = add_ingestion_date(pit_stops_with_data_source_df)
+pit_stops_with_file_date_df = pit_stops_with_data_source_df.withColumn('file_date', lit(v_file_date))
 
 # COMMAND ----------
 
-pit_stops_final_df.write.mode('overwrite').format('parquet').saveAsTable('f1_processed.pit_stops')
+pit_stops_final_df = add_ingestion_date(pit_stops_with_file_date_df)
 
 # COMMAND ----------
 
-display(spark.read.parquet(f'{processed_container_path}/pit_stops'))
+overwrite_partition(pit_stops_final_df, 'f1_processed', 'pit_stops', 'race_id')
 
 # COMMAND ----------
 

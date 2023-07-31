@@ -4,6 +4,11 @@ v_data_source = dbutils.widgets.get('p_data_source')
 
 # COMMAND ----------
 
+dbutils.widgets.text('p_file_date', '2021-03-21')
+v_file_date = dbutils.widgets.get('p_file_date')
+
+# COMMAND ----------
+
 # MAGIC %run ../includes/configuration
 
 # COMMAND ----------
@@ -35,7 +40,7 @@ circuits_schema = StructType(
 circuits_df = spark.read \
     .option('header', True) \
     .schema(circuits_schema) \
-    .csv(f'{raw_container_path}/circuits.csv')
+    .csv(f'{raw_container_path}/{v_file_date}/circuits.csv')
 
 # COMMAND ----------
 
@@ -62,7 +67,11 @@ circuits_with_data_source_df = circuits_renamed_df.withColumn('data_source', lit
 
 # COMMAND ----------
 
-circuits_final_df = add_ingestion_date(circuits_with_data_source_df)
+circuits_with_file_date_df = circuits_with_data_source_df.withColumn('file_date', lit(v_file_date))
+
+# COMMAND ----------
+
+circuits_final_df = add_ingestion_date(circuits_with_file_date_df)
 
 # COMMAND ----------
 
