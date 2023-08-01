@@ -56,7 +56,3 @@ overwrite_partition(final_df, 'f1_presentation', 'driver_standings', 'race_year'
 
 # MAGIC %sql
 # MAGIC SELECT * FROM f1_presentation.driver_standings;
-
-# COMMAND ----------
-
-
