@@ -1,0 +1,10 @@
+{
+	"name": "ls_formula1_adls22",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://formula1adls22.dfs.core.windows.net/"
+		}
+	}
+}
