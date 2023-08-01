@@ -12,30 +12,30 @@ v_file_date = dbutils.widgets.get('p_file_date')
 
 # COMMAND ----------
 
-circuits_df = spark.read.parquet(f'{processed_container_path}/circuits') \
+circuits_df = spark.read.format('delta').load(f'{processed_container_path}/circuits') \
     .withColumnRenamed('location', 'circuit_location')
 
 # COMMAND ----------
 
-races_df = spark.read.parquet(f'{processed_container_path}/races') \
+races_df = spark.read.format('delta').load(f'{processed_container_path}/races') \
     .withColumnRenamed('name', 'race_name') \
     .withColumnRenamed('race_timestamp', 'race_date')
 
 # COMMAND ----------
 
-constructors_df = spark.read.parquet(f'{processed_container_path}/constructors') \
+constructors_df = spark.read.format('delta').load(f'{processed_container_path}/constructors') \
     .withColumnRenamed('name', 'team')
 
 # COMMAND ----------
 
-drivers_df = spark.read.parquet(f'{processed_container_path}/drivers') \
+drivers_df = spark.read.format('delta').load(f'{processed_container_path}/drivers') \
     .withColumnRenamed('number', 'driver_number') \
     .withColumnRenamed('name', 'driver_name') \
     .withColumnRenamed('nationality', 'driver_nationality')
 
 # COMMAND ----------
 
-results_df = spark.read.parquet(f'{processed_container_path}/results') \
+results_df = spark.read.format('delta').load(f'{processed_container_path}/results') \
     .filter(f"file_date = '{v_file_date}'") \
     .withColumnRenamed('time', 'race_time') \
     .withColumnRenamed('race_id', 'result_race_id') \
@@ -66,9 +66,5 @@ final_df = race_results_df \
 
 # COMMAND ----------
 
-overwrite_partition(final_df, 'f1_presentation', 'race_results', 'race_id')
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC SELECT * FROM f1_presentation.race_results WHERE race_year = 2021;
+merge_condition = 'tgt.driver_name = src.driver_name AND tgt.race_id = src.race_id'
+merge_delta_data(final_df, 'f1_presentation', 'race_results', presentation_container_path, merge_condition, 'race_id')
