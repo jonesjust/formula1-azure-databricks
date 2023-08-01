@@ -64,7 +64,12 @@ pit_stops_final_df = add_ingestion_date(pit_stops_with_file_date_df)
 
 # COMMAND ----------
 
-overwrite_partition(pit_stops_final_df, 'f1_processed', 'pit_stops', 'race_id')
+# overwrite_partition(pit_stops_final_df, 'f1_processed', 'pit_stops', 'race_id')
+
+# COMMAND ----------
+
+merge_condition = 'tgt.race_id = src.race_id AND tgt.driver_id = src.driver_id AND tgt.stop = src.stop'
+merge_delta_data(pit_stops_final_df, 'f1_processed', 'pit_stops', processed_container_path, merge_condition, 'race_id')
 
 # COMMAND ----------
 

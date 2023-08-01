@@ -68,11 +68,12 @@ qualifying_final_df = add_ingestion_date(qualifying_with_file_date_df)
 
 # COMMAND ----------
 
-overwrite_partition(qualifying_final_df, 'f1_processed', 'qualifying', 'race_id')
+# overwrite_partition(qualifying_final_df, 'f1_processed', 'qualifying', 'race_id')
 
 # COMMAND ----------
 
-display(spark.read.parquet(f'{processed_container_path}/qualifying'))
+merge_condition = 'tgt.race_id = src.race_id AND tgt.qualify_id = src.qualify_id'
+merge_delta_data(qualifying_final_df, 'f1_processed', 'qualifying', processed_container_path, merge_condition, 'race_id')
 
 # COMMAND ----------
 

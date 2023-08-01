@@ -86,11 +86,7 @@ races_final_df = races_with_ingestion_date_df.select(
 
 # COMMAND ----------
 
-races_final_df.write.mode('overwrite').partitionBy('race_year').format('parquet').saveAsTable('f1_processed.races')
-
-# COMMAND ----------
-
-display(spark.read.parquet(f'{processed_container_path}/races'))
+races_final_df.write.mode('overwrite').partitionBy('race_year').format('delta').saveAsTable('f1_processed.races')
 
 # COMMAND ----------
 
