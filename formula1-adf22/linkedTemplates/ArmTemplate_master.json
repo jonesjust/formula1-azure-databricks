@@ -1,0 +1,56 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "formula1-adf22"
+		},
+		"databricks_formula1_ws_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0721-021702-6a5esvqb"
+		},
+		"ls_formula1_adls22_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://formula1adls22.dfs.core.windows.net/"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "formula1-adf22_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"databricks_formula1_ws_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('databricks_formula1_ws_properties_typeProperties_existingClusterId')]"
+					},
+					"ls_formula1_adls22_properties_typeProperties_url": {
+						"value": "[parameters('ls_formula1_adls22_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

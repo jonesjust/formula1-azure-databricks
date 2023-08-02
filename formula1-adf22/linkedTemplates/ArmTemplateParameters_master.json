@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "formula1-adf22"
+		},
+		"databricks_formula1_ws_properties_typeProperties_existingClusterId": {
+			"value": "0721-021702-6a5esvqb"
+		},
+		"ls_formula1_adls22_properties_typeProperties_url": {
+			"value": "https://formula1adls22.dfs.core.windows.net/"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
