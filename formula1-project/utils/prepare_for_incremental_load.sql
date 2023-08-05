@@ -1,4 +1,9 @@
 -- Databricks notebook source
+-- MAGIC %md
+-- MAGIC ##### Drop all the tables
+
+-- COMMAND ----------
+
 DROP DATABASE IF EXISTS f1_processed CASCADE;
 
 -- COMMAND ----------

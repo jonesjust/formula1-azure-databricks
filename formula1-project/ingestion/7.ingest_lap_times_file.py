@@ -4,7 +4,7 @@ v_data_source = dbutils.widgets.get('p_data_source')
 
 # COMMAND ----------
 
-dbutils.widgets.text('p_file_date', '2021-03-28')
+dbutils.widgets.text('p_file_date', '2021-03-21')
 v_file_date = dbutils.widgets.get('p_file_date')
 
 # COMMAND ----------
