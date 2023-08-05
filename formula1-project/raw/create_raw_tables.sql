@@ -1,4 +1,9 @@
 -- Databricks notebook source
+-- MAGIC %md
+-- MAGIC #### Create tables for CSV files
+
+-- COMMAND ----------
+
 CREATE DATABASE IF NOT EXISTS f1_raw;
 
 -- COMMAND ----------
@@ -44,6 +49,18 @@ SELECT * FROM f1_raw.races;
 
 -- COMMAND ----------
 
+-- MAGIC %md
+-- MAGIC #### Create tables for JSON files
+
+-- COMMAND ----------
+
+-- MAGIC %md
+-- MAGIC ##### Create constructors table
+-- MAGIC * Single Line JSON
+-- MAGIC * Simple structure
+
+-- COMMAND ----------
+
 DROP TABLE IF EXISTS f1_raw.constructors;
 CREATE TABLE IF NOT EXISTS f1_raw.constructors(
   constructorId INT,
@@ -58,6 +75,13 @@ OPTIONS (path '/mnt/formula1adls22/raw/constructors.json')
 -- COMMAND ----------
 
 SELECT * FROM f1_raw.constructors;
+
+-- COMMAND ----------
+
+-- MAGIC %md
+-- MAGIC ##### Create drivers table
+-- MAGIC * Single Line JSON
+-- MAGIC * Complex structure
 
 -- COMMAND ----------
 
@@ -78,6 +102,12 @@ OPTIONS (path '/mnt/formula1adls22/raw/drivers.json')
 -- COMMAND ----------
 
 SELECT * FROM f1_raw.drivers;
+
+-- COMMAND ----------
+
+-- MAGIC %md ##### Create results table
+-- MAGIC * Single Line JSON
+-- MAGIC * Simple structure
 
 -- COMMAND ----------
 
@@ -111,15 +141,22 @@ SELECT * FROM f1_raw.results;
 
 -- COMMAND ----------
 
+-- MAGIC %md
+-- MAGIC ##### Create pit stops table
+-- MAGIC * Multi Line JSON
+-- MAGIC * Simple structure
+
+-- COMMAND ----------
+
 DROP TABLE IF EXISTS f1_raw.pit_stops;
 CREATE TABLE IF NOT EXISTS f1_raw.pit_stops(
-  driverId INT,
-  duration STRING,
-  lap INT,
-  milliseconds INT,
   raceId INT,
+  driverId INT,
   stop INT,
-  time STRING
+  lap INT,
+  time STRING,
+  duration STRING,
+  milliseconds INT
 )
 USING json
 OPTIONS (path '/mnt/formula1adls22/raw/pit_stops.json', multiLine true)
@@ -127,6 +164,18 @@ OPTIONS (path '/mnt/formula1adls22/raw/pit_stops.json', multiLine true)
 -- COMMAND ----------
 
 SELECT * FROM f1_raw.pit_stops;
+
+-- COMMAND ----------
+
+-- MAGIC %md
+-- MAGIC #### Create tables for list of files
+
+-- COMMAND ----------
+
+-- MAGIC %md
+-- MAGIC ##### Create Lap Times Table
+-- MAGIC * CSV file
+-- MAGIC * Multiple files
 
 -- COMMAND ----------
 
@@ -148,17 +197,25 @@ SELECT * FROM f1_raw.lap_times;
 
 -- COMMAND ----------
 
+-- MAGIC %md
+-- MAGIC ##### Create Qualifying Table
+-- MAGIC * JSON file
+-- MAGIC * MultiLine JSON
+-- MAGIC * Multiple files
+
+-- COMMAND ----------
+
 DROP TABLE IF EXISTS f1_raw.qualifying;
 CREATE TABLE IF NOT EXISTS f1_raw.qualifying(
-  constructorId INT,
+  qualifyId INT,
+  raceId INT,
   driverId INT,
+  constructorId INT,
   number INT,
   position INT,
   q1 STRING,
   q2 STRING,
-  q3 STRING,
-  qualifyId INT,
-  raceId INT
+  q3 STRING
 )
 USING json
 OPTIONS (path '/mnt/formula1adls22/raw/qualifying', multiLine true)
