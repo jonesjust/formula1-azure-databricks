@@ -1,6 +1,6 @@
 #### This project extracts, transforms, and loads Formula 1 Racing data from the [Ergast API](http://ergast.com/mrd/) using Azure Databricks and Azure Data Factory
 
-## Entity Relationship Diagram of the raw tables
+## Raw tables entity relationship diagram
 ![f1_raw_tables (3)](https://github.com/jonesjust/formula1-azure-databricks/assets/86092532/ed400169-8174-471d-a53b-234c78fc12f4)
 
 
