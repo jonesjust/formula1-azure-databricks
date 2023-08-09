@@ -7,8 +7,8 @@
 ## High-level view of the solution architecture
 ![solution architecture (1)](https://github.com/jonesjust/formula1-azure-databricks/assets/86092532/572cd35e-c79a-4f65-8ad8-a78c9bc389dc)
 
-## F1 drivers Databricks dashboard
+## Drivers Databricks dashboard
 ![dominant-f1-drivers](https://github.com/jonesjust/formula1-azure-databricks/assets/86092532/e1eee4a2-f915-4803-a2a8-52d5e4f7a4f0)
 
-## F1 Teams Databricks dashboard
+## Teams Databricks dashboard
 ![dominant-f1-teams](https://github.com/jonesjust/formula1-azure-databricks/assets/86092532/d6a01848-049d-4c3b-9972-c7e7a0b6fb10)
